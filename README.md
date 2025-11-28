@@ -4,7 +4,7 @@
 
 # LLM-mar (Large Language Model - Made Accessible Remotely)
 
-LLM-mar is a mobile application for Android designed to help make it easy to connect to a self-hosted LLM. It is intended to be used with a secure tunneling service to allow for direct access to an LLM running on a user's own hardware.
+LLM-mar is a mobile application for Android designed to help make it easier to connect to a self-hosted LLM. It is intended to be used with a secure tunneling service to allow for direct access to an LLM running on a user's own hardware.
 
 ## Usage
 
@@ -27,8 +27,20 @@ LLM-mar is a mobile application for Android designed to help make it easy to con
 
 <p align="center">
   <img src="screenshots/main-screen.jpg" alt="Main screen" width="300" />
+  <img src="screenshots/prompt.jpg" alt="Prompt" width="300" />
+  <img src="screenshots/prompt-and-response.jpg" alt="Prompt and response" width="300" />
 </p>
 
+## Settings
+
+The following settings are available beyond LLM IP, and Model Name.
+
+- Verbose: The Verbose setting works with some LLM's. It is meant to reduce the output.
+
+- Dark Mode: This changes the UI to dark mode. It is likely that you know about dark mode if you are here.
+
 <p align="center">
-  <img src="screenshots/prompt-and-response.jpg" alt="Prompt and response" width="300" />
+  <a href="https://www.buymeacoffee.com/woodalanmc)" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" width="200" />
+  </a>
 </p>
