@@ -22,7 +22,9 @@ LLM-mar is a mobile application for Android designed to help make it easier to c
 
 -   Change the LLM IP to the remotely accessible IP of your self-hosted LLM.
 -   Change the model name to match the model you are running.
-
+***
+### A good method for getting this to work is to use a service like TailScale. This can be installed on your phone along side of LLM-mar as well as the computer running your LLM. Then the IP address is tunneled through TailScale's network.
+***
 3. The main screen should show a server status. If the server is online, you can send your prompts as you would if you were interacting with your LLM in at your desktop.
 
 <p align="center">
@@ -38,6 +40,10 @@ The following settings are available beyond LLM IP, and Model Name.
 - Verbose: The Verbose setting works with some LLM's. It is meant to reduce the output.
 
 - Dark Mode: This changes the UI to dark mode. It is likely that you know about dark mode if you are here.
+
+## Contributing
+
+If youd like to contribute to this project please do! Request new features and let me know about any bugs, or feel free to submit a PR. And if you are feeling generous, buy me a coffee.
 
 <p align="center">
   <a href="https://www.buymeacoffee.com/woodalanmc)" target="_blank">
