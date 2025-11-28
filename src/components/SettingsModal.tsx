@@ -75,9 +75,7 @@ const SettingsModal = ({
             >
                 <View style={[styles.modal, { backgroundColor: modalTheme.card }]}>
                     <Text style={[styles.header, { color: modalTheme.text }]}>Settings</Text>
-                    <Text style={[styles.label, { color: modalTheme.text }]}>
-                        LLM IP Address (Tailscale)
-                    </Text>
+                    <Text style={[styles.label, { color: modalTheme.text }]}>LLM IP Address</Text>
                     <TextInput
                         style={[
                             styles.input,
