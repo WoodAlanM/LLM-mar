@@ -1,7 +1,7 @@
 {
     "expo": {
-        "name": "My-LLM",
-        "slug": "My-LLM",
+        "name": "LLM-mar",
+        "slug": "LLM-mar",
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
@@ -22,7 +22,7 @@
             },
             "edgeToEdgeEnabled": true,
             "predictiveBackGestureEnabled": false,
-            "package": "com.anonymous.MyLLM"
+            "package": "com.anonymous.LLM-mar"
         },
         "web": {
             "favicon": "./assets/favicon.png"
