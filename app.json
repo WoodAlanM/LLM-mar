@@ -2,7 +2,7 @@
     "expo": {
         "name": "LLM-mar",
         "slug": "LLM-mar",
-        "version": "1.0.0",
+        "version": "1.0.2",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "userInterfaceStyle": "light",
@@ -27,12 +27,23 @@
             "edgeToEdgeEnabled": true,
             "predictiveBackGestureEnabled": false,
             "package": "com.anonymous.llmmar",
-            "permissions": ["android.permission.RECORD_AUDIO"]
+            "permissions": ["RECORD_AUDIO", "INTERNET", "ACCESS_NETWORK_STATE"]
         },
         "web": {
             "favicon": "./assets/favicon.png"
         },
-        "plugins": ["expo-speech-recognition", "expo-font", "expo-build-properties"],
+        "plugins": [
+            "expo-speech-recognition",
+            "expo-font",
+            [
+                "expo-build-properties",
+                {
+                    "android": {
+                        "usesCleartextTraffic": true
+                    }
+                }
+            ]
+        ],
         "extra": {
             "eas": {
                 "projectId": "3da2797d-d772-47e0-b3ef-694cc2f3a52f"
