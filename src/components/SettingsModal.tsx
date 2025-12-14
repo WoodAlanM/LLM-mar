@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     Linking,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { lightTheme, darkTheme } from '../utils/theme';
 
@@ -43,6 +44,8 @@ const SettingsModal = ({
     const [verbose, setVerbose] = useState(initialVerbose);
     const [localDarkMode, setLocalDarkMode] = useState(initialDarkMode);
 
+    const insets = useSafeAreaInsets();
+
     useEffect(() => {
         setIpAddress(initialIpAddress);
     }, [initialIpAddress, visible]);
@@ -60,134 +63,151 @@ const SettingsModal = ({
     }, [initialDarkMode, visible]);
 
     const modalTheme = localDarkMode ? darkTheme : lightTheme;
-
     const styles = stylesCreate(modalTheme);
 
     return (
-        <Modal visible={visible} transparent animationType="slide">
-            <View
-                style={{
-                    flex: 1,
-                    backgroundColor: modalTheme.background,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <View style={[styles.modal, { backgroundColor: modalTheme.card }]}>
-                    <Text style={[styles.header, { color: modalTheme.text }]}>Settings</Text>
-                    <Text style={[styles.label, { color: modalTheme.text }]}>LLM IP Address</Text>
-                    <TextInput
+        <Modal visible={visible} transparent animationType="slide" statusBarTranslucent>
+            <View style={{ flex: 1 }}>
+                {/* Overlay covers the whole screen, including safe area */}
+                <View
+                    style={{
+                        flex: 1,
+                        backgroundColor: theme.safeViewBackground,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
+                    <View
                         style={[
-                            styles.input,
+                            styles.modal,
                             {
-                                backgroundColor: modalTheme.inputBackground,
-                                color: modalTheme.inputText,
-                                borderColor: modalTheme.border,
+                                backgroundColor: modalTheme.background,
+                                paddingBottom: insets.bottom,
                             },
                         ]}
-                        value={ipAddress}
-                        onChangeText={setIpAddress}
-                        placeholder="Enter IP address"
-                        placeholderTextColor={modalTheme.inputText}
-                        autoCapitalize="none"
-                    />
-                    <Text style={[styles.label, { color: modalTheme.text }]}>Model Name</Text>
-                    <TextInput
-                        style={[
-                            styles.input,
-                            {
-                                backgroundColor: modalTheme.inputBackground,
-                                color: modalTheme.inputText,
-                                borderColor: modalTheme.border,
-                            },
-                        ]}
-                        value={modelName}
-                        onChangeText={setModelName}
-                        placeholder="Enter model name"
-                        placeholderTextColor={modalTheme.inputText}
-                        autoCapitalize="none"
-                    />
-                    {/* Toggles aligned in a column */}
-                    <View style={styles.togglesColumn}>
-                        <View style={styles.toggleRow}>
-                            <Text style={[styles.label, { color: modalTheme.text }]}>Verbose</Text>
-                            <Switch
-                                value={verbose}
-                                onValueChange={setVerbose}
-                                thumbColor={verbose ? '#222' : '#eee'}
-                            />
-                        </View>
-                        <View style={styles.toggleRow}>
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Ionicons
-                                    name={localDarkMode ? 'moon' : 'sunny'}
-                                    size={22}
-                                    color={modalTheme.text}
-                                    style={{ marginRight: 8 }}
-                                />
-                                <Text style={{ color: modalTheme.text, marginRight: 8 }}>
-                                    Dark Mode
+                    >
+                        <Text style={[styles.header, { color: modalTheme.text }]}>Settings</Text>
+                        <Text style={[styles.label, { color: modalTheme.text }]}>
+                            LLM IP Address
+                        </Text>
+                        <TextInput
+                            style={[
+                                styles.input,
+                                {
+                                    backgroundColor: modalTheme.inputBackground,
+                                    color: modalTheme.inputText,
+                                    borderColor: modalTheme.border,
+                                },
+                            ]}
+                            value={ipAddress}
+                            onChangeText={setIpAddress}
+                            placeholder="Enter IP address"
+                            placeholderTextColor={modalTheme.inputText}
+                            autoCapitalize="none"
+                        />
+                        <Text style={[styles.label, { color: modalTheme.text }]}>Model Name</Text>
+                        <TextInput
+                            style={[
+                                styles.input,
+                                {
+                                    backgroundColor: modalTheme.inputBackground,
+                                    color: modalTheme.inputText,
+                                    borderColor: modalTheme.border,
+                                },
+                            ]}
+                            value={modelName}
+                            onChangeText={setModelName}
+                            placeholder="Enter model name"
+                            placeholderTextColor={modalTheme.inputText}
+                            autoCapitalize="none"
+                        />
+                        <View style={styles.togglesColumn}>
+                            <View style={styles.toggleRow}>
+                                <Text style={[styles.label, { color: modalTheme.text }]}>
+                                    Verbose
                                 </Text>
+                                <Switch
+                                    value={verbose}
+                                    onValueChange={setVerbose}
+                                    thumbColor={verbose ? '#222' : '#eee'}
+                                />
                             </View>
-                            <Switch
-                                value={localDarkMode}
-                                onValueChange={setLocalDarkMode}
-                                thumbColor={localDarkMode ? '#222' : '#eee'}
-                            />
+                            <View style={styles.toggleRow}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Ionicons
+                                        name={localDarkMode ? 'moon' : 'sunny'}
+                                        size={22}
+                                        color={modalTheme.text}
+                                        style={{ marginRight: 8 }}
+                                    />
+                                    <Text style={{ color: modalTheme.text, marginRight: 8 }}>
+                                        Dark Mode
+                                    </Text>
+                                </View>
+                                <Switch
+                                    value={localDarkMode}
+                                    onValueChange={setLocalDarkMode}
+                                    thumbColor={localDarkMode ? '#222' : '#eee'}
+                                />
+                            </View>
+                            <View style={styles.deleteRow}>
+                                <Text style={[styles.label, { color: modalTheme.text }]}>
+                                    Delete Logs
+                                </Text>
+                                <TouchableOpacity onPress={onDeleteLogs}>
+                                    <Text style={{ color: '#d9534f' }}>DELETE</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                        <View style={styles.deleteRow}>
-                            <Text style={[styles.label, { color: modalTheme.text }]}>
-                                Delete Logs
-                            </Text>
-                            <TouchableOpacity onPress={onDeleteLogs}>
-                                <Text style={{ color: '#d9534f' }}>DELETE</Text>
-                            </TouchableOpacity>
+                        <View style={styles.card}>
+                            <View style={styles.buttonRow}>
+                                <TouchableOpacity
+                                    style={[styles.fullButton, { marginRight: 8 }]}
+                                    onPress={onCancel}
+                                >
+                                    <Text style={styles.buttonText}>Cancel</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.fullButton}
+                                    onPress={() =>
+                                        onSave({
+                                            ipAddress,
+                                            modelName,
+                                            verbose,
+                                            darkMode: localDarkMode,
+                                        })
+                                    }
+                                >
+                                    <Text style={styles.buttonText}>Save Settings</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.card}>
-                        <View style={styles.buttonRow}>
+                        <View style={styles.card}>
                             <TouchableOpacity
-                                style={[styles.fullButton, { marginRight: 8 }]}
-                                onPress={onCancel}
-                            >
-                                <Text style={styles.buttonText}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.fullButton}
+                                style={styles.githubButton}
                                 onPress={() =>
-                                    onSave({
-                                        ipAddress,
-                                        modelName,
-                                        verbose,
-                                        darkMode: localDarkMode,
-                                    })
+                                    Linking.openURL('https://github.com/WoodAlanM/My-LLM/issues')
                                 }
                             >
-                                <Text style={styles.buttonText}>Save Settings</Text>
+                                <Ionicons
+                                    name="logo-github"
+                                    size={22}
+                                    color="#fff"
+                                    style={{ marginRight: 8 }}
+                                />
+                                <Text style={styles.githubText}>
+                                    Feature Requests / Bug Reports
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.coffeeButton}
+                                onPress={() =>
+                                    Linking.openURL('https://buymeacoffee.com/woodalanmc')
+                                }
+                            >
+                                <Text style={styles.coffeeText}>☕ Buy Me a Coffee</Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
-                    <View style={styles.card}>
-                        <TouchableOpacity
-                            style={styles.githubButton}
-                            onPress={() =>
-                                Linking.openURL('https://github.com/WoodAlanM/My-LLM/issues')
-                            }
-                        >
-                            <Ionicons
-                                name="logo-github"
-                                size={22}
-                                color="#fff"
-                                style={{ marginRight: 8 }}
-                            />
-                            <Text style={styles.githubText}>Feature Requests / Bug Reports</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.coffeeButton}
-                            onPress={() => Linking.openURL('https://buymeacoffee.com/woodalanmc')}
-                        >
-                            <Text style={styles.coffeeText}>☕ Buy Me a Coffee</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -198,11 +218,12 @@ const SettingsModal = ({
 const stylesCreate = (modalTheme: any) =>
     StyleSheet.create({
         modal: {
-            width: '90%',
+            width: '92%',
             backgroundColor: '#fff',
-            borderRadius: 12,
+            borderRadius: 16,
             padding: 20,
             elevation: 5,
+            alignItems: 'stretch',
         },
         header: {
             fontSize: 22,

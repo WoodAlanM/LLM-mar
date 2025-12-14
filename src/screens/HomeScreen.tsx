@@ -30,7 +30,6 @@ const HomeScreen = () => {
     const scrollViewRef = useRef<ScrollView>(null);
     const [keyboardVisible, setKeyboardVisible] = useState(false);
     const [keyboardHeight, setKeyboardHeight] = useState(0);
-    const [inputHeight, setInputHeight] = useState(40);
 
     const theme = darkMode ? darkTheme : lightTheme;
 
@@ -63,10 +62,6 @@ const HomeScreen = () => {
             hide.remove();
         };
     }, []);
-
-    const handleContextSizeChange = (event: any) => {
-        setInputHeight(Math.min(event.nativeEvent.contentSize.height, 90));
-    };
 
     const addLog = (msg: string) => {
         setLogs((prev) => [...prev, msg]);
@@ -168,19 +163,6 @@ const HomeScreen = () => {
                 </View>
             </SafeAreaView>
 
-            {/* Settings Modal */}
-            <SettingsModal
-                visible={settingsVisible}
-                onCancel={() => setSettingsVisible(false)}
-                onSave={handleSaveSettings}
-                onDeleteLogs={handleDeleteLogs}
-                initialIpAddress={ipAddress}
-                initialModelName={modelName}
-                initialVerbose={verbose}
-                initialDarkMode={darkMode}
-                theme={theme}
-            />
-
             {/* Keyboard-aware body */}
             <KeyboardAvoidingView
                 style={{ flex: 1 }}
@@ -207,11 +189,18 @@ const HomeScreen = () => {
                     </ScrollView>
                 </View>
 
-                {/* Need to keep going from here. The issue is that the TextInput
-                padding bottom is not proportional to the input height so it is
-                growing faster than the input itself. This is causing the layout
-                to look off as the TextInput grows.
-                */}
+                {/* Settings Modal */}
+                <SettingsModal
+                    visible={settingsVisible}
+                    onCancel={() => setSettingsVisible(false)}
+                    onSave={handleSaveSettings}
+                    onDeleteLogs={handleDeleteLogs}
+                    initialIpAddress={ipAddress}
+                    initialModelName={modelName}
+                    initialVerbose={verbose}
+                    initialDarkMode={darkMode}
+                    theme={theme}
+                />
 
                 {/* Message Input */}
                 <View
@@ -220,9 +209,7 @@ const HomeScreen = () => {
                         {
                             backgroundColor: theme.card,
                             borderTopColor: theme.border,
-                            paddingBottom: keyboardVisible
-                                ? keyboardHeight + inputHeight / 1.25 + 20
-                                : insets.bottom + 8,
+                            paddingBottom: keyboardVisible ? keyboardHeight + 55 : insets.bottom,
                         },
                     ]}
                 >
@@ -233,7 +220,6 @@ const HomeScreen = () => {
                                 backgroundColor: theme.inputBackground,
                                 color: theme.inputText,
                                 borderColor: theme.border,
-                                height: inputHeight,
                             },
                         ]}
                         value={message}
@@ -243,7 +229,7 @@ const HomeScreen = () => {
                         onSubmitEditing={handleSendMessage}
                         returnKeyType="send"
                         multiline
-                        onContentSizeChange={handleContextSizeChange}
+                        numberOfLines={3}
                     />
 
                     <TouchableOpacity
